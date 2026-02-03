@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 6s ease-in infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Card Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(255, 77, 109, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative elements */
+        .corner-decoration {
+            position: absolute;
+            font-size: 60px;
+            opacity: 0.8;
+        }
+
+        .top-left {
+            top: 20px;
+            left: 20px;
+            animation: swing 3s ease-in-out infinite;
+        }
+
+        .top-right {
+            top: 20px;
+            right: 20px;
+            font-size: 50px;
+        }
+
+        .bottom-left {
+            bottom: 20px;
+            left: 20px;
+            font-size: 50px;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* Step 1 Styles - Initial Question */
+        .step1-content {
+            padding: 20px;
+        }
+
+        .bunny-couple {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .calendar-icon {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: #fff;
+            border: 3px solid #ff4d6d;
+            border-radius: 10px;
+            padding: 10px;
+            transform: rotate(5deg);
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .calendar-header {
+            background: #ff4d6d;
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            margin: -10px -10px 5px -10px;
+            border-radius: 7px 7px 0 0;
+            letter-spacing: 2px;
+        }
+
+        .calendar-date {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff4d6d;
+            line-height: 1;
+        }
+
+        .calendar-month {
+            font-size: 16px;
+            color: #ff4d6d;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #c9184a;
+            font-size: 2.5em;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            color: #ff4d6d;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        /* Button Styles */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .valentine-btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff4d6d, #ff758c);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6);
+        }
+
+        .no-btn {
+            background: #ffb3c1;
+            color: #590d22;
+            position: relative;
+        }
+
+        .no-btn:hover {
+            background: #ff8fa3;
+        }
+
+        /* Paper plane decoration */
+        .paper-plane {
+            position: absolute;
+            bottom: 80px;
+            left: 30px;
+            font-size: 40px;
+            transform: rotate(-20deg);
+            animation: fly 4s ease-in-out infinite;
+        }
+
+        @keyframes fly {
+            0%, 100% { transform: rotate(-20deg) translate(0, 0); }
+            50% { transform: rotate(-15deg) translate(10px, -10px); }
+        }
+
+        /* Step 2 Styles - Gift Selection */
+        .step2-content {
+            display: none;
+        }
+
+        .success-header {
+            color: #c9184a;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .success-subtitle {
+            color: #ff4d6d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .cute-heart {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .gift-box {
+            background: linear-gradient(135deg, #ffb3c1, #ffccd5);
+            border: 3px solid #ff4d6d;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gift-box:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3);
+        }
+
+        .gift-box::before {
+            content: '🎁';
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .gift-label {
+            color: #590d22;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        /* Display Area for Gifts */
+        .display-area {
+            margin-top: 30px;
+            min-height: 200px;
+            position: relative;
+        }
+
+        /* Bouquet Page Styles */
+        .bouquet-content {
+            background: linear-gradient(135deg, #ffe5d9, #ffd7ba);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            border: 3px dashed #ff4d6d;
+        }
+
+        .bouquet-title {
+            color: #c9184a;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .bouquet-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .rose-bouquet {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .rose-img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 5px solid white;
+        }
+
+        .message-bubbles {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .bubble {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-size: 0.95em;
+            color: #590d22;
+            text-align: left;
+            animation: popIn 0.5s ease-out;
+        }
+
+        .bubble:nth-child(1) { border-bottom-left-radius: 5px; }
+        .bubble:nth-child(2) { border-bottom-right-radius: 5px; align-self: flex-end; }
+        .bubble:nth-child(3) { border-bottom-left-radius: 5px; }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .hanging-hearts {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            animation: swing 2s ease-in-out infinite;
+        }
+
+        /* Letter Page Styles */
+        .letter-content {
+            background: #fff9c4;
+            padding: 40px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: rotate(-1deg);
+            margin: 20px;
+        }
+
+        .letter-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                transparent,
+                transparent 28px,
+                #e0e0e0 28px,
+                #e0e0e0 29px
+            );
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .letter-text {
+            font-family: 'Courier New', monospace;
+            color: #590d22;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+
+        .letter-text .highlight {
+            color: #ff4d6d;
+            font-weight: bold;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 20px;
+            color: #c9184a;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cat-hug {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            font-size: 60px;
+            animation: bounce 2s infinite;
+        }
+
+        /* QR Code Page Styles */
+        .qr-content {
+            background: linear-gradient(135deg, #ffe5d9, #ffccd5);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .qr-title {
+            color: #590d22;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .qr-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            display: inline-block;
+            position: relative;
+            border: 5px solid #ff4d6d;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: white;
+            position: relative;
+        }
+
+        /* Generate QR pattern */
+        .qr-pattern {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, #000 0px, #000 8px, transparent 8px, transparent 16px),
+                repeating-linear-gradient(90deg, #000 0px, #000 8px, transparent 8px, transparent 16px);
+            background-size: 16px 16px;
+            background-position: center;
+            mask-image: radial-gradient(circle at 30% 30%, black 20%, transparent 25%),
+                        radial-gradient(circle at 70% 30%, black 20%, transparent 25%),
+                        radial-gradient(circle at 30% 70%, black 20%, transparent 25%);
+            mask-composite: exclude;
+        }
+
+        .qr-hearts-border {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 3px dashed #ff4d6d;
+            border-radius: 25px;
+            pointer-events: none;
+        }
+
+        .vinyl-record {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #333, #111);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            animation: spin 4s linear infinite;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vinyl-record::before {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background: #ff4d6d;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .vinyl-record::after {
+            content: '♥';
+            color: white;
+            z-index: 1;
+            font-size: 15px;
+        }
+
+        .restart-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        /* Transitions */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .gift-grid { gap: 10px; }
+            .gift-box { padding: 15px 10px; }
+            .bouquet-wrapper { flex-direction: column; }
+            .calendar-icon { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <div class="container">
+        <div class="card">
+            <!-- Step 1: Initial Question -->
+            <div class="step1-content" id="step1">
+                <div class="corner-decoration top-left">💕</div>
+                
+                <div class="calendar-icon">
+                    <div class="calendar-header">FEB</div>
+                    <div class="calendar-date">14</div>
+                </div>
+
+                <div class="paper-plane">✈️</div>
+
+                <div class="bunny-couple">🐰❤️🐰</div>
+                
+                <h1>Hey there,</h1>
+                <p class="subtitle">Will you be my Valentine?</p>
+                
+                <div class="btn-container">
+                    <button class="valentine-btn yes-btn" onclick="goToGifts()">YES OF COURSE</button>
+                    <button class="valentine-btn no-btn" id="noBtn">NO THANK YOU</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Gift Selection -->
+            <div class="step2-content" id="step2">
+                <div class="cute-heart">❤️</div>
+                <h2 class="success-header">Yay, you said yes!</h2>
+                <p class="success-subtitle">I made all these for you hehe</p>
+                
+                <div class="gift-grid">
+                    <div class="gift-box" onclick="showGift('bouquet')">
+                        <div class="gift-label">Gift 1</div>
+                    </div>
+                    <div class="gift-box" onclick="showGift('letter')">
+                        <div class="gift-label">Gift 2</div>
+                    </div>
+                    <div class="gift-box" onclick="showGift('song')">
+                        <div class="gift-label">Gift 3</div>
+                    </div>
+                </div>
+
+                <div class="display-area" id="displayArea"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 7000);
+            }, 1000);
+        }
+
+        // No button escape logic
+        const noBtn = document.getElementById('noBtn');
+        
+        function moveNoButton() {
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            noBtn.style.zIndex = '9999';
+            noBtn.style.transition = 'all 0.3s ease';
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Navigation
+        function goToGifts() {
+            document.getElementById('step1').classList.add('hidden');
+            const step2 = document.getElementById('step2');
+            // Ensure step2 becomes visible
+            step2.style.display = 'block';
+            step2.classList.add('fade-in');
+        }
+
+        // Gift Content Templates
+        function showGift(type) {
+            const display = document.getElementById('displayArea');
+            let content = '';
+
+            switch(type) {
+                case 'bouquet':
+                    content = `
+                        <div class="bouquet-content fade-in">
+                            <div class="hanging-hearts">💕<br>💖<br>💗</div>
+                            <h3 class="bouquet-title">🌻</h3>
+                            <div class="bouquet-wrapper">
+                                <div class="rose-bouquet">
+                                    <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                         alt="Beautiful Sunflower" class="rose-img">
+                                </div>
+                                <div class="message-bubbles">
+                                    <div class="bubble">💕 I will always love you no matter what</div>
+                                    <div class="bubble">💕 You will forever be my only option.</div>
+                                    <div class="bubble">💕 I can't imagine a life without you in it</div>
+                                    <div class="bubble">💕 You are the best part of my life</div>
+                                </div>
+                            </div>
+                            <button class="restart-btn" onclick="backToGifts()">
+                                ← Back to Gifts
+                            </button>
+                        </div>
+                    `;
+                    break;
+                
+                case 'letter':
+                    content = `
+                        <div class="letter-content fade-in">
+                            <div class="cat-hug">🐱💕</div>
+                            <div class="letter-text">
+                                <span class="highlight">To the love of my life,</span><br><br>
+                                Yesss, you read it right.....<br>
+                                You make my life so meaningful,<br>
+                                and I am so lucky that we have so many moments together.<br>
+                                My valentine this year is youuuhhhh. I love<br>
+                                you wholeheartedly and I can't<br>
+                                wait to continue loving you for<br>
+                                the rest of my life. I know I tell<br>
+                                you this every day, but you are<br>
+                                literally the most beautiful girl<br>
+                                I know. Anyways, I love you.<br><br>
+                                <span class="highlight">Always, Forever</span>
+                            </div>
+                            <button class="restart-btn" onclick="backToGifts()" style="bottom: -40px; right: 0;">
+                                ← Back to Gifts
+                            </button>
+                        </div>
+                    `;
+                    break;
+                
+                case 'song':
+                    content = `
+                        <div class="qr-content fade-in">
+                            <div class="vinyl-record"></div>
+                            <h3 class="qr-title">Scan this baby! 🎵</h3>
+                            <p style="color: #590d22; margin-bottom: 15px; font-style: italic;"></p>
+                            <div style="position: relative; display: inline-block;">
+                                <div class="qr-wrapper">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://open.spotify.com/track/14mT8BCOXiUUcGlb7KujkT?flow_ctx=fc68e116-688e-4603-9c39-327e169561df%3A1770121685" 
+                                         alt="https://open.spotify.com/track/14mT8BCOXiUUcGlb7KujkT?flow_ctx=fc68e116-688e-4603-9c39-327e169561df%3A1770121685" style="width: 200px; height: 200px; display: block;">
+                                    <div class="qr-hearts-border"></div>
+                                </div>
+                                <div style="position: absolute; top: 50%; left: -40px; font-size: 24px; animation: bounce 1s infinite;">←</div>
+                                <div style="position: absolute; top: 50%; right: -40px; font-size: 24px; animation: bounce 1s infinite;">→</div>
+                            </div>
+                            <p style="margin-top: 20px; color: #590d22; font-size: 0.9em;">
+                                💕 Scan to listen 💕
+                            </p>
+                            <button class="restart-btn" onclick="location.reload()">
+                                🔄 click to restart!
+                            </button>
+                        </div>
+                    `;
+                    break;
+            }
+
+            // Hide gift grid temporarily and show content
+            document.querySelector('.gift-grid').style.display = 'none';
+            document.querySelector('.success-header').style.display = 'none';
+            document.querySelector('.success-subtitle').style.display = 'none';
+            document.querySelector('.cute-heart').style.display = 'none';
+            
+            display.innerHTML = content;
+        }
+
+        function backToGifts() {
+            document.getElementById('displayArea').innerHTML = '';
+            document.querySelector('.gift-grid').style.display = 'grid';
+            document.querySelector('.success-header').style.display = 'block';
+            document.querySelector('.success-subtitle').style.display = 'block';
+            document.querySelector('.cute-heart').style.display = 'block';
+        }
+
+        // Initialize
+        createHearts();
+    </script>
+</body>
+</html>
